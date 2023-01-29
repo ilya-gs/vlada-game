@@ -1,13 +1,15 @@
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import React from 'react';
-import { Button, Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select, SvgIcon, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, SvgIcon, TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ClearIcon from '@mui/icons-material/Clear';
+import useSound from 'use-sound';
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -18,6 +20,33 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function App() {
+  const [dificulty, setDificulty] = useState('2');
+  const [currentAnswer, setCurrentAnswer] = useState('');
+  
+  const [playActive] = useSound(
+    '/pop.mp3',
+    { volume: 0.95 }
+  );
+
+  const [playClean] = useSound(
+    '/glug-a.mp3',
+    { volume: 0.95 }
+  );
+
+  function handleNumberButtons(number: number) {
+    setCurrentAnswer(currentAnswer + number)
+    playActive();
+  }
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setDificulty(event.target.value as string);
+  };
+
+  const handleClean = () => {
+    setCurrentAnswer(''); 
+    playClean();
+  };
+
   return (
     <div className="App">
       <Grid container spacing={2}>
@@ -33,13 +62,13 @@ function App() {
           <Item>-</Item>
         </Grid>
         <Grid item xs={2}>
-          <Item><TextField size="medium" disabled></TextField></Item>
+          <Item><TextField size="medium" value={currentAnswer} disabled></TextField></Item>
         </Grid>
         <Grid item xs={2}>
           <Item><IconButton color='success' size="large"><DoneOutlineIcon /></IconButton></Item>
         </Grid>
         <Grid item xs={2}>
-          <Item><IconButton color="error" size="large"><CancelIcon fontSize="inherit" /></IconButton></Item>
+          <Item><IconButton color="error" size="large" onClick={() => handleClean()}><CancelIcon fontSize="inherit" /></IconButton></Item>
         </Grid>
         <Grid item xs={3}>
           <Item>-</Item>
@@ -50,34 +79,34 @@ function App() {
           <Item>-</Item>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" size="large" color="secondary">1</Button>
+          <Button variant="contained" size="large" color="secondary" onClick={() => handleNumberButtons(1)}>1</Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" size="large" color="secondary">2</Button>
+          <Button variant="contained" size="large" color="secondary" onClick={() => handleNumberButtons(2)}>2</Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" size="large" color="secondary">3</Button>
+          <Button variant="contained" size="large" color="secondary" onClick={() => handleNumberButtons(3)}>3</Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" size="large" color="secondary">4</Button>
+          <Button variant="contained" size="large" color="secondary" onClick={() => handleNumberButtons(4)}>4</Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" size="large" color="secondary">5</Button>
+          <Button variant="contained" size="large" color="secondary" onClick={() => handleNumberButtons(5)}>5</Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" size="large" color="secondary">6</Button>
+          <Button variant="contained" size="large" color="secondary" onClick={() => handleNumberButtons(6)}>6</Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" size="large" color="secondary">7</Button>
+          <Button variant="contained" size="large" color="secondary" onClick={() => handleNumberButtons(7)}>7</Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" size="large" color="secondary">8</Button>
+          <Button variant="contained" size="large" color="secondary" onClick={() => handleNumberButtons(8)}>8</Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" size="large" color="secondary">9</Button>
+          <Button variant="contained" size="large" color="secondary" onClick={() => handleNumberButtons(9)}>9</Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" size="large" color="secondary">0</Button>
+          <Button variant="contained" size="large" color="secondary" onClick={() => handleNumberButtons(0)}>0</Button>
         </Grid>
         <Grid item xs={1}>
           <Item>-</Item>
@@ -96,7 +125,8 @@ function App() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={2}  
+              value={dificulty}  
+               onChange={handleChange}
               label="Dificulty"
             >
               <MenuItem value={1}>Simple</MenuItem>
