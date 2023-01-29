@@ -1,9 +1,8 @@
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { Button, Checkbox, FormControl, IconButton, Input, InputLabel, MenuItem, Select, SvgIcon, TextField } from '@mui/material';
+import { Button, Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select, SvgIcon, TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import AddIcon from '@mui/icons-material/Add';
@@ -130,7 +129,6 @@ function App() {
           <Item><Button color='error' variant='contained' size='large'>------ START -------</Button></Item>
         </Grid>
       </Grid>
-      <h1></h1>
     </div>
   );
 }
