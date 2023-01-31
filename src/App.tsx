@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, SvgIcon, TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
@@ -9,7 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ClearIcon from '@mui/icons-material/Clear';
 import useSound from 'use-sound';
-
+import Animation, { Position } from './Animation';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -22,6 +22,7 @@ const Item = styled(Paper)(({ theme }) => ({
 function App() {
   const [dificulty, setDificulty] = useState('2');
   const [currentAnswer, setCurrentAnswer] = useState('');
+  const [rabbit, setRabbit] = useState<Position>({x: 0,y: 70});
   
   const [playActive] = useSound(
     '/pop.mp3',
@@ -37,6 +38,22 @@ function App() {
     setCurrentAnswer(currentAnswer + number)
     playActive();
   }
+
+  // setRabbit((prev) => {
+  //   prev.x = (prev.x + 10) % 500;
+  //   return prev;
+  // });
+
+  useEffect(() => {
+    setInterval(() => {
+      setRabbit(prevState => { return { ...prevState, x: (prevState.x + 1)% 500 } });
+      
+    },100)
+    
+    console.log("INIT");
+    
+  }, [])
+  
 
   const handleChange = (event: SelectChangeEvent) => {
     setDificulty(event.target.value as string);
@@ -54,7 +71,7 @@ function App() {
           <Item><h1>VLADA GAME</h1></Item>
         </Grid>
         <Grid item xs={12}>
-          <Item><h1>VOLK I ZAYA</h1></Item>
+          <Animation rabbit={rabbit} />
         </Grid>
 
 
